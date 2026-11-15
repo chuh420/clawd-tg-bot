@@ -1,0 +1,12 @@
+[Unit]
+Description=clawd-tg-bot, a Telegram remote for Claude Code
+After=network-online.target
+
+[Service]
+WorkingDirectory=@DIR@
+EnvironmentFile=%h/.config/clawd-tg-bot/env
+Environment=PATH=%h/.local/bin:/usr/local/bin:/usr/bin
+ExecStart=@DIR@/.venv/bin/python @DIR@/clawd_tg_bot.py
+Restart=on-failure
+RestartSec=5
+RestartPreventExitStatus=2

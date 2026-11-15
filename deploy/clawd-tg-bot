@@ -1,0 +1,13 @@
+#!/bin/sh
+unit=clawd-tg-bot
+dir=$(cd "$(dirname "$(readlink -f "$0")")/.." && pwd)
+case "$1" in
+  setup) exec "$dir/.venv/bin/python" "$dir/setup_wizard.py" ;;
+  on) systemctl --user start "$unit" && echo "$unit on" ;;
+  off) systemctl --user stop "$unit" && echo "$unit off" ;;
+  restart) systemctl --user restart "$unit" && echo "$unit restarted" ;;
+  status) systemctl --user is-active "$unit" ;;
+  logs) journalctl --user -u "$unit" -n 50 -f ;;
+  config) ${EDITOR:-nano} "$HOME/.config/$unit/env" ;;
+  *) echo "usage: $unit setup|on|off|restart|status|logs|config"; exit 1 ;;
+esac
